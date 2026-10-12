@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Edit Student · StudentHub</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="{{ url_for('index') }}"><span class="brand-mark">S</span><span><strong>Student<span class="brand-light">Hub</span></strong><small>MANAGEMENT PORTAL</small></span></a>
+    <div class="topbar-right"><span class="status-dot"></span> Student Administration</div>
+  </header>
+  <main class="edit-wrap">
+    <a class="back-link" href="{{ url_for('index') }}">← Back to dashboard</a>
+    <section class="panel edit-panel">
+      <p class="eyebrow">STUDENT DIRECTORY</p>
+      <h1>Edit student details</h1>
+      <p class="subtitle">Update the information below and save your changes.</p>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}{% for category, message in messages %}<div class="flash {{ category }}">{{ message }}</div>{% endfor %}{% endif %}
+      {% endwith %}
+      <form method="post" class="student-form edit-form">
+        <label>Student ID<input name="student_id" value="{{ student['student_id'] }}" required></label>
+        <label>Full name<input name="name" value="{{ student['name'] }}" required></label>
+        <label>Email address<input type="email" name="email" value="{{ student['email'] }}" required></label>
+        <label>Phone number<input name="phone" value="{{ student['phone'] }}" required></label>
+        <label>Department<select name="department" required>
+          {% for dept in ['CSE','ECE','EEE','Mechanical','Civil','IT','Other'] %}<option {% if student['department'] == dept %}selected{% endif %}>{{ dept }}</option>{% endfor %}
+        </select></label>
+        <label>Year of study<select name="year" required>
+          {% for year in ['1st Year','2nd Year','3rd Year','4th Year'] %}<option {% if student['year'] == year %}selected{% endif %}>{{ year }}</option>{% endfor %}
+        </select></label>
+        <div class="form-actions"><button class="btn btn-primary" type="submit">Save changes</button><a class="btn btn-secondary" href="{{ url_for('index') }}">Cancel</a></div>
+      </form>
+    </section>
+  </main>
+</body>
+</html>
